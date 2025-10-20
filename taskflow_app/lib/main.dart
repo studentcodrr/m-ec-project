@@ -16,9 +16,8 @@ class TaskFlowApp extends StatelessWidget {
       
       theme: ThemeData(
         useMaterial3: true,
-        
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF00897B), // A sophisticated teal color
+          seedColor: const Color(0xFF00897B), 
           brightness: Brightness.light,
         ),
         
@@ -36,8 +35,7 @@ class TaskFlowApp extends StatelessWidget {
           ),
         ),
 
-        // Define a global style for all Cards.
-        // <<< CHANGE: Corrected from CardTheme to CardThemeData
+  
         cardTheme: CardThemeData(
           color: Colors.white,
           elevation: 1,
