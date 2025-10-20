@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/team.dart';
-import '../widgets/team_card.dart';
+import 'team_card.dart';
 import 'task_list_screen.dart';
 
 class TeamScreen extends StatelessWidget {

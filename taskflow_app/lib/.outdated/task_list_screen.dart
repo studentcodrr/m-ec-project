@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/task.dart';
 import '../models/team.dart';
-import '../widgets/task_card.dart';
+import 'task_card.dart';
 
 class TaskListScreen extends StatelessWidget {
   final Team team;
