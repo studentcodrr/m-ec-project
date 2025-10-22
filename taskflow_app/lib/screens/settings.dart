@@ -18,8 +18,8 @@ class SettingsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Sidebar(
-            currentPage: 'Settings', // To highlight the correct menu item
-            projectVisibility: const {}, // No projects needed here
+            currentPage: 'Settings', 
+            projectVisibility: const {},
             onProjectVisibilityChanged: (name, isVisible) {},
           ),
           Expanded(
@@ -34,12 +34,10 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   
-                  // A reusable button widget for consistency
                   _SettingsButton(
                     label: 'Change Username',
                     icon: Icons.person_outline,
                     onTap: () {
-                      // This button is disabled, so nothing happens.
                     },
                   ),
                   const SizedBox(height: 16),
@@ -47,19 +45,17 @@ class SettingsScreen extends StatelessWidget {
                     label: 'Change Password',
                     icon: Icons.lock_outline,
                     onTap: () {
-                      // This button is also disabled.
                     },
                   ),
                   const SizedBox(height: 16),
                   _SettingsButton(
                     label: 'Log Out',
                     icon: Icons.logout,
-                    isDestructive: true, // Makes the button red
+                    isDestructive: true, 
                     onTap: () {
-                      // Navigate to the LoginScreen and remove all previous screens
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (context) => const LoginScreen()),
-                        (Route<dynamic> route) => false, // This predicate removes all routes
+                        (Route<dynamic> route) => false, 
                       );
                     },
                   ),
@@ -73,7 +69,6 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-// A helper widget for the settings buttons to avoid code repetition
 class _SettingsButton extends StatelessWidget {
   final String label;
   final IconData icon;
@@ -108,7 +103,6 @@ class _SettingsButton extends StatelessWidget {
           side: BorderSide(color: Colors.grey.shade300),
         ),
       ),
-      // Set onPressed to null to disable the button visually and functionally
       onPressed: isDisabled ? null : onTap,
     );
   }

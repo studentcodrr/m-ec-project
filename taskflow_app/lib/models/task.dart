@@ -46,10 +46,6 @@ class Task {
   });
 
   double get progress {
-    final totalDuration = deadline.difference(startDate).inDays;
-    if (totalDuration <= 0) return 1.0;
-
-    final daysPassed = DateTime.now().difference(startDate).inDays;
-    return (daysPassed / totalDuration).clamp(0.0, 1.0);
+    return 0.0;
   }
 }

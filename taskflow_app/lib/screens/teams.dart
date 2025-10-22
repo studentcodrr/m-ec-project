@@ -13,22 +13,21 @@ class TeamScreen extends StatefulWidget {
 class _TeamScreenState extends State<TeamScreen> {
   final List<Team> _teams = [
     Team(title: 'Development', members: [
-      TeamMember(name: 'Alice Johnson', avatarUrl: 'assets/avatar1.png'),
-      TeamMember(name: 'Bob Williams', avatarUrl: 'assets/avatar2.png'),
-      TeamMember(name: 'Eve Davis', avatarUrl: 'assets/avatar3.png'),
+      TeamMember(name: 'Mihai', avatarUrl: ''),
+      TeamMember(name: 'Oana', avatarUrl: ''),
+      TeamMember(name: 'Alex', avatarUrl: ''),
     ]),
-    Team(title: 'Marketing', members: [
-      TeamMember(name: 'Charlie Brown', avatarUrl: 'assets/avatar4.png'),
-      TeamMember(name: 'Diana Prince', avatarUrl: 'assets/avatar5.png'),
+    Team(title: 'IT', members: [
+      TeamMember(name: 'Maia', avatarUrl: ''),
+      TeamMember(name: 'Diana', avatarUrl: ''),
     ]),
     Team(title: 'Design', members: [
-      TeamMember(name: 'Frank Miller', avatarUrl: 'assets/avatar1.png'),
-      TeamMember(name: 'Grace Hopper', avatarUrl: 'assets/avatar2.png'),
-      TeamMember(name: 'Henry Ford', avatarUrl: 'assets/avatar4.png'),
+      TeamMember(name: 'Sara', avatarUrl: ''),
+      TeamMember(name: 'George', avatarUrl: ''),
+      TeamMember(name: 'Ion', avatarUrl: ''),
     ]),
   ];
 
-  // We don't need project visibility here, so we pass an empty map.
   final Map<String, bool> _projectVisibility = {};
 
   @override

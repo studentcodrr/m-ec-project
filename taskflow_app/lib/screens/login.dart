@@ -1,5 +1,3 @@
-// lib/screens/login_screen.dart
-
 import 'package:flutter/material.dart';
 import 'dashboard.dart';
 
@@ -34,12 +32,16 @@ class LoginScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 50,
+                  vertical: 15,
+                ),
               ),
               onPressed: () {
-                // Navigate to the main dashboard after "logging in"
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const DashboardScreen()),
+                  MaterialPageRoute(
+                    builder: (context) => const DashboardScreen(),
+                  ),
                 );
               },
               child: const Text('Log In'),

@@ -4,13 +4,13 @@ import '../screens/teams.dart';
 import '../screens/settings.dart'; 
 
 class Sidebar extends StatelessWidget {
-  final String currentPage; // To know which page is currently active
+  final String currentPage; 
   final Map<String, bool> projectVisibility;
   final Function(String, bool) onProjectVisibilityChanged;
 
   const Sidebar({
     super.key,
-    required this.currentPage, // Add this required parameter
+    required this.currentPage, 
     required this.projectVisibility,
     required this.onProjectVisibilityChanged,
   });
@@ -26,16 +26,13 @@ class Sidebar extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 20),
         children: [
-          // Dashboard Navigation
           ListTile(
             leading: const Icon(Icons.dashboard),
             title: const Text('Dashboard'),
-            // <<< CHANGE: Selection is now dynamic
             selected: currentPage == 'Dashboard',
-            selectedTileColor: colorScheme.primary.withOpacity(0.1),
+            selectedTileColor: colorScheme.primary,
             selectedColor: colorScheme.primary,
             onTap: () {
-              // <<< CHANGE: Added navigation
               if (currentPage != 'Dashboard') {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const DashboardScreen()),
@@ -44,17 +41,14 @@ class Sidebar extends StatelessWidget {
             },
           ),
 
-          // Teams Navigation
           ListTile(
             leading: const Icon(Icons.people),
             title: const Text('Teams'),
-            // <<< CHANGE: Selection is now dynamic
-            selected: currentPage == 'Team',
-            selectedTileColor: colorScheme.primary.withOpacity(0.1),
+            selected: currentPage == 'Teams',
+            selectedTileColor: colorScheme.primary,
             selectedColor: colorScheme.primary,
             onTap: () {
-              // <<< CHANGE: Added navigation
-              if (currentPage != 'Team') {
+              if (currentPage != 'Teams') {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const TeamScreen()),
                 );
@@ -64,11 +58,10 @@ class Sidebar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
-            selected: currentPage == 'Settings', // Highlight if active
-            selectedTileColor: theme.colorScheme.primary.withOpacity(0.1),
+            selected: currentPage == 'Settings',
+            selectedTileColor: theme.colorScheme.primary,
             selectedColor: theme.colorScheme.primary,
             onTap: () {
-              // Navigate to SettingsScreen
               if (currentPage != 'Settings') {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => const SettingsScreen()),

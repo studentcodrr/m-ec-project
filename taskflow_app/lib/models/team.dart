@@ -1,5 +1,3 @@
-// lib/models/team_model.dart
-
 class TeamMember {
   final String name;
   final String avatarUrl;
