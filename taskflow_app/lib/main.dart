@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/dashboard.dart';
+import 'screens/login.dart';
 
 void main() {
   runApp(const TaskFlowApp());
@@ -24,17 +24,15 @@ class TaskFlowApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFFF7F9FC),
 
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black87,
-          elevation: 1,
-          surfaceTintColor: Colors.transparent,
-          titleTextStyle: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        elevation: 1,
+        surfaceTintColor: Colors.transparent,
+        titleTextStyle: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
         ),
-
+      ),
   
         cardTheme: CardThemeData(
           color: Colors.white,
@@ -50,7 +48,7 @@ class TaskFlowApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const DashboardScreen(),
+      home: const LoginScreen(),
     );
   }
 }

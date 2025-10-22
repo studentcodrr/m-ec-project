@@ -35,21 +35,6 @@ class _TaskTableSectionState extends State<TaskTableSection> {
     });
   }
 
-  void _addNewTask() {
-    setState(() {
-      _tasks.add(
-        Task(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          title: 'New Task',
-          owner: 'Unassigned',
-          status: TaskStatus.workingOnIt,
-          startDate: DateTime.now(),
-          deadline: DateTime.now().add(const Duration(days: 7)),
-        ),
-      );
-    });
-  }
-
   void _updateTask(Task updatedTask) {
     setState(() {
       final index = _tasks.indexWhere((task) => task.id == updatedTask.id);
@@ -77,22 +62,23 @@ class _TaskTableSectionState extends State<TaskTableSection> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Pass the current title and the update function to the header
             _TableHeader(
               title: _currentTitle,
               accentColor: widget.accentColor,
               onTitleSubmitted: _updateTitle,
             ),
             const Divider(height: 1, thickness: 1),
-            ..._tasks.map((task) => _TaskRow(
-                  task: task,
-                  accentColor: widget.accentColor,
-                  onUpdate: _updateTask,
-                  onDelete: () => _deleteTask(task.id),
-                )),
+            ..._tasks.map(
+              (task) => _TaskRow(
+                task: task,
+                accentColor: widget.accentColor,
+                onUpdate: _updateTask,
+                onDelete: () => _deleteTask(task.id),
+              ),
+            ),
             const SizedBox(height: 12),
             TextButton.icon(
-              onPressed: _addNewTask,
+              onPressed: null,
               icon: const Icon(Icons.add, size: 18),
               label: const Text("Add task"),
             ),
@@ -116,7 +102,10 @@ class _TableHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const headerStyle = TextStyle(color: Colors.grey, fontWeight: FontWeight.w500);
+    const headerStyle = TextStyle(
+      color: Colors.grey,
+      fontWeight: FontWeight.w500,
+    );
     final titleController = TextEditingController(text: title);
 
     return Padding(
@@ -140,11 +129,11 @@ class _TableHeader extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(flex: 3, child: Text("Owner", style: headerStyle)),
+          const Expanded(flex: 3, child: Text("Responsible", style: headerStyle)),
           const Expanded(flex: 4, child: Text("Timeline", style: headerStyle)),
           const Expanded(flex: 3, child: Text("Status", style: headerStyle)),
           const Expanded(flex: 3, child: Text("Deadline", style: headerStyle)),
-          const SizedBox(width: 40), // Space for delete icon
+          const SizedBox(width: 40),
         ],
       ),
     );
@@ -171,7 +160,11 @@ class _TaskRow extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.shade200, width: 1))),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey.shade200, width: 1),
+        ),
+      ),
       child: Row(
         children: [
           Expanded(
@@ -199,7 +192,10 @@ class _TaskRow extends StatelessWidget {
             flex: 3,
             child: TextFormField(
               controller: ownerController,
-              decoration: const InputDecoration(border: InputBorder.none, isDense: true),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                isDense: true,
+              ),
               onFieldSubmitted: (newValue) {
                 task.owner = newValue;
                 onUpdate(task);
@@ -228,9 +224,22 @@ class _TaskRow extends StatelessWidget {
                   return DropdownMenuItem(
                     value: status,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                      decoration: BoxDecoration(color: status.displayColor, borderRadius: BorderRadius.circular(6)),
-                      child: Text(status.displayName, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: status.displayColor,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        status.displayName,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   );
                 }).toList(),
@@ -258,13 +267,20 @@ class _TaskRow extends StatelessWidget {
                   onUpdate(task);
                 }
               },
-              child: Text(DateFormat.yMMMd().format(task.deadline), style: const TextStyle(color: Colors.grey)),
+              child: Text(
+                DateFormat.yMMMd().format(task.deadline),
+                style: const TextStyle(color: Colors.grey),
+              ),
             ),
           ),
           SizedBox(
             width: 40,
             child: IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.grey, size: 20),
+              icon: const Icon(
+                Icons.delete_outline,
+                color: Colors.grey,
+                size: 20,
+              ),
               onPressed: onDelete,
             ),
           ),

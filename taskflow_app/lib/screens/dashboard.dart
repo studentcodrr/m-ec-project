@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/task_table.dart';
 import '../widgets/sidebar.dart';
+import '../data/mock_data.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -11,9 +12,9 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final Map<String, bool> _projectVisibility = {
-    'Project Phoenix': true,
-    'Project Orion': true,
-    'Project Nova': true,
+    'Project 1': true,
+    'Project 2': true,
+    'Project 3': true,
   };
 
   void _updateProjectVisibility(String projectName, bool isVisible) {
@@ -24,7 +25,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Get the current theme's color scheme.
     final colorScheme = Theme.of(context).colorScheme;
 
     final Widget mainContent = Expanded(
@@ -32,31 +32,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            if (_projectVisibility['Project Phoenix'] ?? false)
+            if (_projectVisibility['Project 1'] ?? false)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: TaskTableSection(
-                  title: "",
+                  title: "Project 1",
                   accentColor: colorScheme.primary,
-                  tasks: [],
+                  tasks: project1Tasks, 
                 ),
               ),
-            if (_projectVisibility['Project Orion'] ?? false)
+            if (_projectVisibility['Project 2'] ?? false)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: TaskTableSection(
-                  title: "",
+                  title: "Project 2",
                   accentColor: colorScheme.secondary,
-                  tasks: [],
+                  tasks: project2Tasks,
                 ),
               ),
-            if (_projectVisibility['Project Nova'] ?? false)
+            if (_projectVisibility['Project 3'] ?? false)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: TaskTableSection(
-                  title: "",
+                  title: "Project 3",
                   accentColor: colorScheme.tertiary,
-                  tasks: [],
+                  tasks: project3Tasks, 
                 ),
               ),
           ],
