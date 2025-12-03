@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+plugins {
+}
+
+>>>>>>> 1952e08e10082e5f5854338fd135925bc577fa6d
 allprojects {
     repositories {
         google()

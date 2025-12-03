@@ -10,6 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.19.0
+<<<<<<< HEAD
+=======
+  firebase_core: ^3.0.0
+  firebase_auth: ^5.0.0
+  cloud_firestore: ^5.0.0
+>>>>>>> 1952e08e10082e5f5854338fd135925bc577fa6d
 
 
 dev_dependencies:
@@ -19,3 +25,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1952e08e10082e5f5854338fd135925bc577fa6d

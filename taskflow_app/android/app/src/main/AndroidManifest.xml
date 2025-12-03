@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+=======
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tskapp.taskflow_app">
+>>>>>>> 1952e08e10082e5f5854338fd135925bc577fa6d
     <application
         android:label="taskflow_app"
         android:name="${applicationName}"
