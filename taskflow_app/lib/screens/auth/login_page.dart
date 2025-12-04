@@ -24,8 +24,7 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text.trim(),
       );
 
-      // Navigate to tasks page on success
-      Navigator.pushReplacementNamed(context, '/tasks');
+      Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
       String message = 'Login failed';
       if (e.code == 'user-not-found') {
