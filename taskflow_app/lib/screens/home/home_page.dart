@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             builder: (_) => const EditTeamDialog(),
           );
         },
-        backgroundColor: Colors.indigo, 
+        backgroundColor: Colors.teal, 
         tooltip: 'Manage Team Members',
         child: const Icon(Icons.manage_accounts, color: Colors.white), 
       );
