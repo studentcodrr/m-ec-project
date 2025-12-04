@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../services/database_services.dart';
+import '../services/task_repository.dart'; // <--- 1. Import Repository
 import '../models/task_model.dart';
 import '../models/team_model.dart';
 import '../models/task_list_model.dart';
@@ -19,6 +19,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
   final _descController = TextEditingController();
   
   final DatabaseService _dbService = DatabaseService();
+  final TaskRepository _taskRepo = TaskRepository(); // <--- 2. Instantiate Repository
   
   DateTime? _deadline;
   String? _selectedTeamId;
@@ -59,6 +60,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
+    // FIND TEAM NAME
     String teamName = '';
     if (_selectedTeamId != null && _allTeams.isNotEmpty) {
       try {
@@ -69,8 +71,11 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
       }
     }
 
+    // Generate ID locally for Offline use
+    final newId = DateTime.now().millisecondsSinceEpoch.toString();
+
     final newTask = TaskModel(
-      id: '',
+      id: newId, // <--- 3. Generate ID here so Hive can use it
       title: _titleController.text.trim(),
       description: _descController.text.trim(),
       listId: _selectedListId!,
@@ -78,13 +83,16 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
       assignedTo: _assignedMembers,
       deadline: _deadline ?? DateTime.now().add(const Duration(days: 7)),
       createdBy: user.uid,
-      teamName: teamName, 
+      teamName: teamName,
     );
 
     try {
-      await FirebaseFirestore.instance.collection('tasks').add(newTask.toMap());
+      // <--- 4. USE REPOSITORY INSTEAD OF FIRESTORE DIRECTLY
+      await _taskRepo.addTask(newTask);
 
-      if (mounted) Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context); // <--- 5. Close dialog after repo finishes
+      }
       
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Task added successfully!"))

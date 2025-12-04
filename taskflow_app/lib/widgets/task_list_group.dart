@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import '../models/task_list_model.dart';
-import '../models/task_model.dart';
-import '../services/database_services.dart';
-import 'task_card.dart';
+import '../services/database_services.dart'; // Kept if you use it elsewhere, otherwise optional
+import '../services/task_repository.dart'; // <--- Import Repository
+import 'task_card.dart'; 
 
 class TaskListGroup extends StatelessWidget {
   final TaskListModel list;
+  
+  // FIX: Instantiate the Repository here so '_repo' is defined
+  final TaskRepository _repo = TaskRepository(); 
 
-  const TaskListGroup({super.key, required this.list});
+  TaskListGroup({super.key, required this.list});
 
   @override
   Widget build(BuildContext context) {
-    final dbService = DatabaseService();
-
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 4, 
@@ -42,7 +43,7 @@ class TaskListGroup extends StatelessWidget {
               ),
               IconButton(
                 icon: const Icon(Icons.delete_outline, color: Colors.grey),
-                onPressed: () => _confirmDelete(context, dbService),
+                onPressed: () => _confirmDelete(context),
                 tooltip: "Delete List",
               ),
             ],
@@ -50,35 +51,25 @@ class TaskListGroup extends StatelessWidget {
           
           childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           children: [
-            StreamBuilder<List<TaskModel>>(
-              stream: dbService.getTasksForList(list.id),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return const SizedBox();
-
-                final allTasks = snapshot.data!;
-
-                if (allTasks.isEmpty) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      "No tasks",
-                      style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
-                    ),
-                  );
-                }
-
-                return Column(
-                  children: allTasks.map((task) => TaskCard(task: task)).toList(),
-                );
-              },
-            ),
+            if (list.tasks.isEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  "No tasks",
+                  style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                ),
+              )
+            else
+              Column(
+                children: list.tasks.map((task) => TaskCard(task: task)).toList(),
+              ),
           ],
         ),
       ),
     );
   }
 
-  void _confirmDelete(BuildContext context, DatabaseService db) {
+  void _confirmDelete(BuildContext context) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -91,7 +82,8 @@ class TaskListGroup extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              db.deleteTaskList(list.id);
+              // Now _repo is defined and we can call the delete method
+              _repo.deleteTaskList(list.id); 
               Navigator.pop(ctx);
             },
             child: const Text("Delete", style: TextStyle(color: Colors.red)),
