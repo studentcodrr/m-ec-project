@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/task_list_model.dart';
-import '../services/database_services.dart'; // Kept if you use it elsewhere, otherwise optional
-import '../services/task_repository.dart'; // <--- Import Repository
+import '../services/task_repository.dart'; 
 import 'task_card.dart'; 
 
 class TaskListGroup extends StatelessWidget {
   final TaskListModel list;
   
-  // FIX: Instantiate the Repository here so '_repo' is defined
   final TaskRepository _repo = TaskRepository(); 
 
   TaskListGroup({super.key, required this.list});
@@ -82,7 +80,6 @@ class TaskListGroup extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              // Now _repo is defined and we can call the delete method
               _repo.deleteTaskList(list.id); 
               Navigator.pop(ctx);
             },

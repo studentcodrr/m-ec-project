@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dashboard.dart';
+import '../screens/home/tabs/home_page.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

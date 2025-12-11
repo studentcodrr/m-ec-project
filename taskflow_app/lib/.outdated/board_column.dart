@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/task_list_model.dart';
 import '../models/task_model.dart';
 import '../services/database_services.dart';
-import 'task_card.dart';
+import '../widgets/task_card.dart';
 
 class BoardColumn extends StatelessWidget {
   final TaskListModel list;

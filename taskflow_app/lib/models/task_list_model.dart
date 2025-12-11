@@ -5,7 +5,7 @@ class TaskListModel {
   final String id;
   final String title;
   final String createdBy;
-  final List<TaskModel> tasks; // Added field
+  final List<TaskModel> tasks;
 
   TaskListModel({
     required this.id, 

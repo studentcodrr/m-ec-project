@@ -17,7 +17,7 @@ class _TaskPageState extends State<TaskPage> with SingleTickerProviderStateMixin
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
 
-    // Enable Firestore offline persistence
+    //Firestore offline persistence
     FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true,
     );
@@ -50,7 +50,7 @@ class _TaskPageState extends State<TaskPage> with SingleTickerProviderStateMixin
                 TextField(controller: _descController, decoration: const InputDecoration(labelText: "Description")),
                 const SizedBox(height: 10),
 
-                // Pick team
+                //team
                 StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance.collection('teams').snapshots(),
                   builder: (context, snapshot) {
@@ -77,7 +77,7 @@ class _TaskPageState extends State<TaskPage> with SingleTickerProviderStateMixin
                 ),
                 const SizedBox(height: 10),
 
-                // Pick members of selected team
+                //members of selected team
                 if (_selectedTeam != null)
                   StreamBuilder<DocumentSnapshot>(
                     stream: FirebaseFirestore.instance.collection('teams').doc(_selectedTeam).snapshots(),
@@ -108,7 +108,7 @@ class _TaskPageState extends State<TaskPage> with SingleTickerProviderStateMixin
                   ),
                 const SizedBox(height: 10),
 
-                // Pick deadline
+                //deadline
                 ElevatedButton(
                   onPressed: () async {
                     final pickedDate = await showDatePicker(

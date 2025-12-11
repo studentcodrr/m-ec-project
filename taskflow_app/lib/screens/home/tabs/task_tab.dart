@@ -24,17 +24,14 @@ class _TasksTabState extends State<TasksTab> {
 
     return Container(
       color: Colors.white,
-      // 1. OUTER STREAM: Fetch List Metadata (Titles) from Firestore
       child: StreamBuilder<List<TaskListModel>>(
         stream: _dbService.getUserLists(user.uid),
         builder: (context, listSnapshot) {
           
-          // 2. INNER STREAM: Fetch Tasks from Offline Repository
           return StreamBuilder<List<TaskModel>>(
             stream: _repo.getTasks(), 
             builder: (context, taskSnapshot) {
               
-              // Loading state only if we have NO data from either source
               if (!listSnapshot.hasData && !taskSnapshot.hasData) {
                  if (listSnapshot.connectionState == ConnectionState.waiting) {
                    return const Center(child: CircularProgressIndicator());
@@ -44,26 +41,21 @@ class _TasksTabState extends State<TasksTab> {
               final allTasks = taskSnapshot.data ?? [];
               final onlineLists = listSnapshot.data ?? [];
               
-              // --- MERGE LOGIC ---
               List<TaskListModel> displayLists = [];
               Set<String> processedListIds = {};
 
-              // A. Process Online Lists (Ensures empty lists show up!)
               for (var list in onlineLists) {
-                // Find local tasks that belong to this list
                 final matchingTasks = allTasks.where((t) => t.listId == list.id).toList();
                 
                 displayLists.add(TaskListModel(
                   id: list.id,
                   title: list.title,
                   createdBy: list.createdBy,
-                  tasks: matchingTasks, // Attach offline tasks
+                  tasks: matchingTasks, 
                 ));
                 processedListIds.add(list.id);
               }
 
-              // B. Process Orphan Tasks (Tasks whose List ID isn't in Firestore yet/anymore)
-              // This handles the "Fully Offline" case where onlineLists might be empty/error
               final Map<String, List<TaskModel>> orphanGroups = {};
               for (var task in allTasks) {
                 if (!processedListIds.contains(task.listId)) {
@@ -74,11 +66,10 @@ class _TasksTabState extends State<TasksTab> {
                 }
               }
 
-              // Add orphans to display
               orphanGroups.forEach((listId, tasks) {
                 displayLists.add(TaskListModel(
                   id: listId,
-                  title: "My List", // Fallback title for offline-only lists
+                  title: "My List", 
                   createdBy: user.uid,
                   tasks: tasks,
                 ));

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../services/database_services.dart';
-import '../services/task_repository.dart'; // <--- 1. Import Repository
+import '../services/task_repository.dart'; 
 import '../models/task_model.dart';
 import '../models/team_model.dart';
 import '../models/task_list_model.dart';
@@ -19,7 +19,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
   final _descController = TextEditingController();
   
   final DatabaseService _dbService = DatabaseService();
-  final TaskRepository _taskRepo = TaskRepository(); // <--- 2. Instantiate Repository
+  final TaskRepository _taskRepo = TaskRepository(); 
   
   DateTime? _deadline;
   String? _selectedTeamId;
@@ -60,7 +60,6 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
-    // FIND TEAM NAME
     String teamName = '';
     if (_selectedTeamId != null && _allTeams.isNotEmpty) {
       try {
@@ -71,11 +70,10 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
       }
     }
 
-    // Generate ID locally for Offline use
     final newId = DateTime.now().millisecondsSinceEpoch.toString();
 
     final newTask = TaskModel(
-      id: newId, // <--- 3. Generate ID here so Hive can use it
+      id: newId, 
       title: _titleController.text.trim(),
       description: _descController.text.trim(),
       listId: _selectedListId!,
@@ -87,11 +85,10 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
     );
 
     try {
-      // <--- 4. USE REPOSITORY INSTEAD OF FIRESTORE DIRECTLY
       await _taskRepo.addTask(newTask);
 
       if (mounted) {
-        Navigator.pop(context); // <--- 5. Close dialog after repo finishes
+        Navigator.pop(context); 
       }
       
       ScaffoldMessenger.of(context).showSnackBar(

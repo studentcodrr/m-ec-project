@@ -8,7 +8,6 @@ class TaskRepository {
   final Box<TaskModel> _localBox = Hive.box<TaskModel>('tasks');
   final CollectionReference _remoteCollection = FirebaseFirestore.instance.collection('tasks');
 
-  // Helper: robustly check connection
   bool _isConnected(dynamic connectivityResult) {
     if (connectivityResult is List) {
       return (connectivityResult as List).contains(ConnectivityResult.mobile) || 
@@ -19,7 +18,6 @@ class TaskRepository {
     }
   }
 
-  // 1. GET TASKS
   Stream<List<TaskModel>> getTasks() async* {
     if (_localBox.isNotEmpty) {
       yield _localBox.values.toList();
@@ -50,7 +48,6 @@ class TaskRepository {
     }
   }
 
-  // 2. ADD TASK (Upsert)
   Future<void> addTask(TaskModel task) async {
     task.isSynced = false; 
     await _localBox.put(task.id, task);
@@ -68,48 +65,37 @@ class TaskRepository {
     }
   }
 
-  // 3. DELETE TASK
   Future<void> deleteTask(String taskId) async {
-    // Delete locally immediately
     await _localBox.delete(taskId);
 
     final connectivityResult = await Connectivity().checkConnectivity();
 
-    // Try to delete from cloud if online
     if (_isConnected(connectivityResult)) {
       try {
         await _remoteCollection.doc(taskId).delete();
       } catch (e) {
         print("Delete failed on server: $e");
-        // Note: For full offline-delete sync, we would need a "deleted_tasks" Hive box.
-        // For now, this handles the optimistic UI delete.
+       
       }
     }
   }
 
-  // 4. DELETE TASK LIST (New)
-  // Safely deletes a list and all its tasks, handling empty IDs to prevent crashes.
+  
   Future<void> deleteTaskList(String listId) async {
-    // 1. Clean up local tasks associated with this list
     final tasksToDelete = _localBox.values.where((t) => t.listId == listId).toList();
     for (var task in tasksToDelete) {
       await _localBox.delete(task.id);
     }
 
-    // 2. CRASH FIX: If ID is empty (orphan group), stop here. 
-    // Do not attempt to call Firestore with empty path.
+
     if (listId.isEmpty) return;
 
-    // 3. Delete from Cloud if online
     final connectivityResult = await Connectivity().checkConnectivity();
     if (_isConnected(connectivityResult)) {
       try {
-        // Delete the list document
-        // Assumes collection is 'task_lists' - check your DatabaseService if different
+        
         await FirebaseFirestore.instance.collection('task_lists').doc(listId).delete();
         
-        // Optional: Delete remote tasks belonging to this list (Manual Cascade)
-        // This cleans up Firestore so tasks don't reappear
         final remoteTasks = await _remoteCollection.where('listId', isEqualTo: listId).get();
         for (var doc in remoteTasks.docs) {
            await doc.reference.delete();

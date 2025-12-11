@@ -8,7 +8,6 @@ class TaskCard extends StatelessWidget {
 
   TaskCard({super.key, required this.task});
 
-  // Helper to format date simply without extra dependencies
   String _formatDate(DateTime date) {
     return "${date.day}/${date.month}/${date.year}";
   }
@@ -24,11 +23,9 @@ class TaskCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Row 1: Checkbox, Title/Desc, Delete ---
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Checkbox
                 Transform.scale(
                   scale: 1.1,
                   child: Checkbox(
@@ -53,7 +50,6 @@ class TaskCard extends StatelessWidget {
                   ),
                 ),
                 
-                // Title & Description
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, left: 4.0),
@@ -87,7 +83,6 @@ class TaskCard extends StatelessWidget {
                   ),
                 ),
 
-                // Delete Button & Sync Icon
                 Column(
                   children: [
                     IconButton(
@@ -104,10 +99,8 @@ class TaskCard extends StatelessWidget {
 
             const Divider(height: 20),
 
-            // --- Row 2: Footer Info (Deadline & Assigned) ---
             Row(
               children: [
-                // Deadline
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
@@ -132,14 +125,12 @@ class TaskCard extends StatelessWidget {
                 
                 const Spacer(),
 
-                // Assigned Person & Team
                 if (task.assignedTo.isNotEmpty || task.teamName.isNotEmpty) ...[
                   Row(
                     children: [
                       Icon(Icons.group, size: 16, color: Colors.teal.shade700),
                       const SizedBox(width: 4),
                       Text(
-                        // Format: "TeamName • Alice, Bob" or just "Alice"
                         "${task.teamName.isNotEmpty ? '${task.teamName} • ' : ''}${task.assignedTo.join(', ')}",
                         style: TextStyle(
                           fontSize: 12,
