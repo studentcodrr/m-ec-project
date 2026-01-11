@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:taskflow_app/services/user_profile_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -23,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
+    await UserProfileService().upsertCurrentUserProfile();
 
       Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import '../models/task_list_model.dart';
-import '../services/task_repository.dart'; 
 import 'task_card.dart'; 
 
 class TaskListGroup extends StatelessWidget {
   final TaskListModel list;
-  
-  final TaskRepository _repo = TaskRepository(); 
 
   TaskListGroup({super.key, required this.list});
 
@@ -39,11 +36,6 @@ class TaskListGroup extends StatelessWidget {
                   ),
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.delete_outline, color: Colors.grey),
-                onPressed: () => _confirmDelete(context),
-                tooltip: "Delete List",
-              ),
             ],
           ),
           
@@ -63,29 +55,6 @@ class TaskListGroup extends StatelessWidget {
               ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _confirmDelete(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text("Delete List?"),
-        content: const Text("This will delete the list and all tasks inside it."),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx), 
-            child: const Text("Cancel")
-          ),
-          TextButton(
-            onPressed: () {
-              _repo.deleteTaskList(list.id); 
-              Navigator.pop(ctx);
-            },
-            child: const Text("Delete", style: TextStyle(color: Colors.red)),
-          ),
-        ],
       ),
     );
   }

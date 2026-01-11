@@ -10,8 +10,8 @@ class TaskRepository {
 
   bool _isConnected(dynamic connectivityResult) {
     if (connectivityResult is List) {
-      return (connectivityResult as List).contains(ConnectivityResult.mobile) || 
-             (connectivityResult as List).contains(ConnectivityResult.wifi);
+      return (connectivityResult).contains(ConnectivityResult.mobile) || 
+             (connectivityResult).contains(ConnectivityResult.wifi);
     } else {
       return connectivityResult == ConnectivityResult.mobile || 
              connectivityResult == ConnectivityResult.wifi;
@@ -27,6 +27,7 @@ class TaskRepository {
 
     _syncFromFirestore();
 
+    // ignore: unused_local_variable
     await for (final event in _localBox.watch()) {
       yield _localBox.values.toList();
     }

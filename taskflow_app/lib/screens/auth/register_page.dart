@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:taskflow_app/services/user_profile_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -19,6 +20,8 @@ class _RegisterPageState extends State<RegisterPage> {
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+    await UserProfileService().upsertCurrentUserProfile();
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Registration successful!")),
       );

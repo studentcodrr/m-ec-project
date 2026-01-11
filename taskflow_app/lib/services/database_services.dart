@@ -6,7 +6,6 @@ import '../models/task_list_model.dart';
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  //=================<LISTS>=================
   Stream<List<TaskListModel>> getUserLists(String userId) {
     return _db.collection('lists')
         .where('createdBy', isEqualTo: userId)
@@ -30,7 +29,6 @@ class DatabaseService {
     }
   }
 
-  //=================<TASKS>=================
   Stream<List<TaskModel>> getTasksForList(String listId) {
     return _db.collection('tasks')
         .where('listId', isEqualTo: listId)
@@ -52,7 +50,6 @@ class DatabaseService {
     await _db.collection('tasks').doc(taskId).delete();
   }
 
-  //=================<TEAMS>=================
   Stream<List<TeamModel>> getTeams() {
     return _db.collection('teams').snapshots().map((snapshot) =>
         snapshot.docs.map((doc) => TeamModel.fromSnapshot(doc)).toList());
